@@ -1,0 +1,25 @@
+@model IEnumerable<Restaurant>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Daftar Restaurant</h1>
+    <p>Username: @ViewData["username"]</p>
+    <p>Role: @ViewBag.Role</p>
+</div>
+<div>
+     <table class="table table-striped">
+        <tr>
+            <td>ID</td>
+            <td>Name</td>
+        </tr>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+            </tr>
+        }
+    </table>
+</div>
