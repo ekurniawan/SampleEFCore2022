@@ -10,17 +10,13 @@ namespace SampleEF.Data
 {
     public class SamuraiContext : DbContext
     {
-        public SamuraiContext()
-        {
-
-        }
 
         public DbSet<Samurai> Samurais { get; set; }
         public DbSet<Quote> Quotes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSQLLocalDB;Initial Catalog=SampleEFDb");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SampleEFDb");
         }
     }
 }
