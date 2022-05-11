@@ -21,7 +21,11 @@ namespace SampleEF.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Samurai>().HasMany(s => s.Battles)
+                .WithMany(b => b.Samurais)
+                .UsingEntity<BattleSamurai>(bs => bs.HasOne<Battle>().WithMany(),
+                bs => bs.HasOne<Samurai>().WithMany())
+                .Property(bs => bs.DateJoined).HasDefaultValueSql("getdate()");
         }
     }
 }
