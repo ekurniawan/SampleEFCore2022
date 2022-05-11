@@ -12,8 +12,16 @@ _context.Database.EnsureCreated();
 //AddVariousTypes();
 //GetSamurais("Setelah ditambahkan");
 //GetBattles();
-QueryAggregates();
+//QueryAggregates();
+//RetrieveAndUpdate();
+//RetrieveAndUpdateSamurai();
+//RetrieveAndDeleteSamurai();
+//InsertNewSamuraiWithQuote();
+//AddQuotesToExistingSamurai();
+//EagerLoadSamuraiWithQuotes();
+ProjectionSample();
 
+//GetSamurais("result:");
 Console.Write("Press any key ...");
 Console.ReadLine();
 
@@ -24,7 +32,7 @@ void GetSamurais(string text)
     Console.WriteLine($"{text}: Jumlah Samurai - {samurais.Count} orang");
     foreach (var samurai in samurais)
     {
-        Console.WriteLine(samurai.Name);
+        Console.WriteLine($" {samurai.Id} - {samurai.Name}");
     }
 }
 void AddSamurai(params string[] names)
@@ -61,3 +69,87 @@ void QueryAggregates()
         Console.WriteLine(samurai.Name);
     }
 }
+void RetrieveAndUpdate()
+{
+    var samurai = _context.Samurais.FirstOrDefault(s => s.Id == 2);
+    samurai.Name = "Kyojiro Rengoku";
+    _context.SaveChanges();
+}
+void RetrieveAndUpdateSamurai()
+{
+    var samurai = _context.Samurais.OrderBy(s=>s.Id).LastOrDefault();
+    samurai.Name += " San";
+    _context.Samurais.Add(new Samurai { Name = "Gyomei Hajima" });
+    _context.SaveChanges();
+}
+void RetrieveAndDeleteSamurai()
+{
+    //var samurai = _context.Samurais.Find(1);
+    //_context.Samurais.Remove(samurai);
+    var samurais = _context.Samurais.Where(s => s.Name.StartsWith("Samurai"));
+    _context.Samurais.RemoveRange(samurais);
+    _context.SaveChanges();
+}
+void InsertNewSamuraiWithQuote()
+{
+    var samurai = new Samurai
+    {
+        Name = "Miyamoto Musashi",
+        Quotes = new List<Quote>
+        {
+            new Quote{Text="Think lightly of yourself and deeply word"},
+            new Quote{Text="Do nothing that is no use"}
+        }
+    };
+    _context.Samurais.Add(samurai);
+    _context.SaveChanges();
+}
+void AddQuotesToExistingSamurai()
+{
+    var samurai = _context.Samurais.Find(8);
+    samurai.Quotes.Add(new Quote { Text = "Do not fear death" });
+    _context.SaveChanges();
+}
+void EagerLoadSamuraiWithQuotes()
+{
+    //var samuraiwithquotes = _context.Samurais.Include(s => s.Quotes).ToList();
+    var filterEntity = _context.Samurais.Where(s=>s.Name.Contains("Miyamoto"))
+        .Include(s => s.Quotes.Where(q => q.Text.Contains("fear"))).AsNoTracking().ToList();
+
+    foreach (var samurai in filterEntity)
+    {
+        Console.WriteLine($" {samurai.Id} - {samurai.Name}");
+        foreach(var quote in samurai.Quotes)
+        {
+            Console.WriteLine($"-- Quote: {quote.Text}");
+        }
+    }
+}
+
+void ProjectionSample()
+{
+    //var results = _context.Samurais.Select(s=> new { s.Id, s.Name }).ToList(); 
+    //var idnameresult = _context.Samurais.Select(s => new IdAndName(s.Id, s.Name)).ToList(); 
+    var resultwithcount = _context.Samurais.Include(s=>s.Quotes).Select(s => new
+    {
+        s.Id, s.Name, NumOfQuotes=s.Quotes.Count()
+    }).ToList();
+    foreach (var samurai in resultwithcount)
+    {
+        Console.WriteLine($" {samurai.Id} - {samurai.Name} - {samurai.NumOfQuotes}");
+    }
+}
+
+
+struct IdAndName
+{
+    public IdAndName(int id,string name)
+    {
+        Id = id;
+        Name = name;
+    }
+    public int Id;
+    public string Name;
+}
+
+
