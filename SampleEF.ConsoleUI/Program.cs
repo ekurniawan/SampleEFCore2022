@@ -11,7 +11,8 @@ _context.Database.EnsureCreated();
 //AddSamurai("Samurai 1", "Samurai 2", "Samurai 3", "Samurai 4");
 //AddVariousTypes();
 //GetSamurais("Setelah ditambahkan");
-GetBattles();
+//GetBattles();
+QueryAggregates();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -48,5 +49,15 @@ void GetBattles()
     foreach(var battle in battles)
     {
         Console.WriteLine($"{battle.BattleId} - {battle.Name}");
+    }
+}
+void QueryAggregates()
+{
+    //var name = "Samurai 1";
+    //var samurai = _context.Samurais.FirstOrDefault(s => s.Name == name);
+    var samurais = _context.Samurais.Where(s => s.Name.Contains("Tan")).AsNoTracking().ToList();
+    foreach (var samurai in samurais)
+    {
+        Console.WriteLine(samurai.Name);
     }
 }
