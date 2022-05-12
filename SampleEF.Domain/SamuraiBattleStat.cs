@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SampleEF.Domain
 {
-    /*public class SamuraiBattleStat
+    public class SamuraiBattleStat
     {
         public string Name { get; set; }
-        public int? NumberOfBattle { get; set; }
-        public string EarliesBattle { get; set; }
-    }*/
+        public int? NumberOfBattles { get; set; }
+        public string EarliestBattle { get; set; }
+    }
 }
