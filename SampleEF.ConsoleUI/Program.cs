@@ -27,7 +27,9 @@ _swordContext.Database.EnsureCreated();
 //GetSamurais("result:");
 
 //InsertSword();
-GetSamuraiWithSword();
+//GetSamuraiWithSword();
+//AddSamuraiToExistingBattle();
+ReturnAllBattlesWithSamurai();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -147,7 +149,6 @@ void ProjectionSample()
         Console.WriteLine($" {samurai.Id} - {samurai.Name} - {samurai.NumOfQuotes}");
     }
 }
-
 //menambahkan sword
 void InsertSword()
 {
@@ -172,7 +173,7 @@ void GetSamuraiWithSword()
         swords = sContext.Swords.AsNoTracking().ToList();
     }
 
-    /*var results = from sa in samurais
+    var results = from sa in samurais
                   join sw in swords on sa.Id equals sw.SamuraiId
                   select new SamuraiWithSword
                   {
@@ -181,20 +182,45 @@ void GetSamuraiWithSword()
                       SwordName = sw.Name,
                       SwordId = sw.Id,
                       Weight = sw.Weight
-                  };*/
+                  };
 
-    var results = samurais.Join(swords, sa => sa.Id, sw => sw.SamuraiId, (sa, sw) => new SamuraiWithSword
+    /*var results = samurais.Join(swords, sa => sa.Id, sw => sw.SamuraiId, (sa, sw) => new SamuraiWithSword
     {
         SamuraiId = sa.Id,
         SamuraiName = sa.Name,
         SwordName = sw.Name,
         SwordId = sw.Id,
         Weight = sw.Weight
-    });
+    });*/
 
     foreach (var result in results)
     {
         Console.WriteLine($"{result.SwordName} - {result.SamuraiName} - {result.Weight}");
+    }
+}
+
+void AddSamuraiToExistingBattle()
+{
+    //var battle = _context.Battles.FirstOrDefault(b=>b.BattleId==2);
+    //battle.Samurais.Add(new Samurai { Name = "Takeda Shingen" });
+
+    var battle = _context.Battles.FirstOrDefault(b => b.BattleId == 1);
+    var samurai = _context.Samurais.FirstOrDefault(s => s.Id == 2);
+    battle.Samurais.Add(samurai);
+    
+    _context.SaveChanges();
+}
+
+void ReturnAllBattlesWithSamurai()
+{
+    var battles = _context.Battles.Include(b => b.Samurais).ToList();
+    foreach(var batt in battles)
+    {
+        Console.WriteLine($"{batt.BattleId} - {batt.Name} - {batt.Samurais.Count}");
+        foreach(var sam in batt.Samurais)
+        {
+            Console.WriteLine($"--> {sam.Id} - {sam.Name}");
+        }
     }
 }
 
