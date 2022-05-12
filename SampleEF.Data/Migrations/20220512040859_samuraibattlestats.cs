@@ -17,7 +17,7 @@ namespace SampleEF.Data.Migrations
                   WHERE Battles.BattleId IN(SELECT BattleId
                                      FROM BattleSamurai
                                     WHERE SamuraiId = @samuraiId)
-                  ORDER BY StartDate
+                  ORDER BY BattleId asc
                   RETURN @ret
                 END");
 
