@@ -33,7 +33,8 @@ _swordContext.Database.EnsureCreated();
 //RemoveSamuraiFromBattle();
 //AddNewSamiuraiWithHorse();
 //GetSamuraiWithHorse();
-QuerySamuraiBattleStats();
+//QuerySamuraiBattleStats();
+QueryUsingRawSQL();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -252,13 +253,23 @@ void GetSamuraiWithHorse()
             Console.WriteLine($"{sam.Name} - {sam.Horse.Name}");
     }
 }
-
 void QuerySamuraiBattleStats()
 {
     var stats = _context.SamuraiBattleStats.AsNoTracking().ToList();
     foreach(var stat in stats)
     {
         Console.WriteLine($"{stat.Name} - {stat.NumberOfBattles} - {stat.EarliestBattle}");
+    }
+}
+
+void QueryUsingRawSQL()
+{
+    var samurais = _context.Samurais.FromSqlRaw("select * from Samurais").ToList();
+    int samuraiId = 2;
+    var samurai = _context.Samurais.FromSqlInterpolated($"select * from Samurais where Id={samuraiId}").FirstOrDefault();
+    foreach(var sam in samurais)
+    {
+        Console.WriteLine($"{sam.Name}");
     }
 }
 
