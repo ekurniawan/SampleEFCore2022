@@ -29,7 +29,10 @@ _swordContext.Database.EnsureCreated();
 //InsertSword();
 //GetSamuraiWithSword();
 //AddSamuraiToExistingBattle();
-ReturnAllBattlesWithSamurai();
+//ReturnAllBattlesWithSamurai();
+//RemoveSamuraiFromBattle();
+//AddNewSamiuraiWithHorse();
+GetSamuraiWithHorse();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -210,7 +213,6 @@ void AddSamuraiToExistingBattle()
     
     _context.SaveChanges();
 }
-
 void ReturnAllBattlesWithSamurai()
 {
     var battles = _context.Battles.Include(b => b.Samurais).ToList();
@@ -221,6 +223,32 @@ void ReturnAllBattlesWithSamurai()
         {
             Console.WriteLine($"--> {sam.Id} - {sam.Name}");
         }
+    }
+}
+void RemoveSamuraiFromBattle()
+{
+    var battleWithSamurai = _context.Battles.Include(b => b.Samurais.Where(s => s.Id == 2))
+        .Single(b => b.BattleId == 1);
+    var samurai = battleWithSamurai.Samurais[0];
+    battleWithSamurai.Samurais.Remove(samurai);
+    _context.SaveChanges();
+}
+void AddNewSamiuraiWithHorse()
+{
+    //var samurai = new Samurai { Name = "Jina Uchida" };
+    //samurai.Horse = new Horse { Name = "Red Wind" };
+
+    var horse = new Horse { Name = "Yellow Tornado", SamuraiId = 8 };
+    _context.Add(horse);
+    _context.SaveChanges();
+}
+void GetSamuraiWithHorse()
+{
+    var samurais = _context.Samurais.Include(s => s.Horse).ToList();
+    foreach(var sam in samurais)
+    {
+        if(sam.Horse != null)
+            Console.WriteLine($"{sam.Name} - {sam.Horse.Name}");
     }
 }
 
