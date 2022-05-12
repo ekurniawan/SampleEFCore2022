@@ -32,7 +32,8 @@ _swordContext.Database.EnsureCreated();
 //ReturnAllBattlesWithSamurai();
 //RemoveSamuraiFromBattle();
 //AddNewSamiuraiWithHorse();
-GetSamuraiWithHorse();
+//GetSamuraiWithHorse();
+QuerySamuraiBattleStats();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -249,6 +250,15 @@ void GetSamuraiWithHorse()
     {
         if(sam.Horse != null)
             Console.WriteLine($"{sam.Name} - {sam.Horse.Name}");
+    }
+}
+
+void QuerySamuraiBattleStats()
+{
+    var stats = _context.SamuraiBattleStats.AsNoTracking().ToList();
+    foreach(var stat in stats)
+    {
+        Console.WriteLine($"{stat.Name} - {stat.NumberOfBattles} - {stat.EarliestBattle}");
     }
 }
 
