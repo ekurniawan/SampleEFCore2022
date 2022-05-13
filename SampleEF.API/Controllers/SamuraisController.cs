@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SampleEF.Data.Dal;
 using SampleEF.Domain;
 using SampleEF.Domain.DTO;
@@ -12,16 +13,18 @@ namespace SampleEF.API.Controllers
     public class SamuraisController : ControllerBase
     {
         private readonly ISamurai _samurai;
-        public SamuraisController(ISamurai samurai)
+        private readonly IMapper _mapper;
+        public SamuraisController(ISamurai samurai,IMapper mapper)
         {
             _samurai = samurai;
+            _mapper = mapper;
         }
 
         // GET: api/<SamuraisController>
         [HttpGet]
         public async Task<IEnumerable<SamuraiReadDto>> Get()
         {
-            List<SamuraiReadDto> lstSamurai= new List<SamuraiReadDto>();
+            /*List<SamuraiReadDto> lstSamurai= new List<SamuraiReadDto>();
             var results = await _samurai.GetAll();
             foreach(var result in results)
             {
@@ -30,21 +33,36 @@ namespace SampleEF.API.Controllers
                     Id = result.Id,
                     Name = result.Name,
                 });
-            }
-            return lstSamurai;
+            }*/
+            var results = await _samurai.GetAll();
+            var output = _mapper.Map<IEnumerable<SamuraiReadDto>>(results);
+            return output;
         }
 
         // GET api/<SamuraisController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<SamuraiReadDto> Get(int id)
         {
-            return "value";
+            var result = _samurai.Get(id);
+            var output = _mapper.Map<SamuraiReadDto>(result);
+            return output;
         }
 
         // POST api/<SamuraisController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post(SamuraiCreateDto samuraiCreateDto)
         {
+            try
+            {
+                var newSamurai = _mapper.Map<Samurai>(samuraiCreateDto);
+                var result = await _samurai.Insert(newSamurai);
+                var samuraiReadDto = _mapper.Map<SamuraiReadDto>(result);
+                return CreatedAtAction("Get", new { id = result.Id }, samuraiReadDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/<SamuraisController>/5

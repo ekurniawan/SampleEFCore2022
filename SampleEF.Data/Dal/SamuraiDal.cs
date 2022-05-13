@@ -39,9 +39,18 @@ namespace SampleEF.Data.Dal
             throw new NotImplementedException();
         }
 
-        public Task<Samurai> Insert(Samurai obj)
+        public async Task<Samurai> Insert(Samurai obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Samurais.Add(obj);
+                var result = await _context.SaveChangesAsync();
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
 
         public Task<Samurai> Update(Samurai obj)

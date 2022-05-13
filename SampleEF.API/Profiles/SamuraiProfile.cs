@@ -9,6 +9,7 @@ namespace SampleEF.API.Profiles
         public SamuraiProfile()
         {
             CreateMap<Samurai, SamuraiReadDto>();
+            CreateMap<SamuraiCreateDto, Samurai>();
         }
     }
 }
