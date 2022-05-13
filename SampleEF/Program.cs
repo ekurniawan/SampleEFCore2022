@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SampleEF.Data;
+using SampleEF.Data.Dal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 //menambahkan DI
 builder.Services.AddScoped<IRestaurantData,RestaurantData>();
-
+builder.Services.AddScoped<ISamurai, SamuraiDal>();
 //EF Core
 builder.Services.AddDbContext<SamuraiContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SampleEFDb"))
+    builder.Configuration.GetConnectionString("SamuraiConnection"))
    .EnableSensitiveDataLogging());
 
 var app = builder.Build();
