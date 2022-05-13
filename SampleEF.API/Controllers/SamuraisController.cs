@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SampleEF.Data.Dal;
 using SampleEF.Domain;
+using SampleEF.Domain.DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,10 +19,19 @@ namespace SampleEF.API.Controllers
 
         // GET: api/<SamuraisController>
         [HttpGet]
-        public async Task<IEnumerable<Samurai>> Get()
+        public async Task<IEnumerable<SamuraiReadDto>> Get()
         {
+            List<SamuraiReadDto> lstSamurai= new List<SamuraiReadDto>();
             var results = await _samurai.GetAll();
-            return results;
+            foreach(var result in results)
+            {
+                lstSamurai.Add(new SamuraiReadDto
+                {
+                    Id = result.Id,
+                    Name = result.Name,
+                });
+            }
+            return lstSamurai;
         }
 
         // GET api/<SamuraisController>/5
