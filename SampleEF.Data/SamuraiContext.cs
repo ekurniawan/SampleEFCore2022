@@ -10,6 +10,15 @@ namespace SampleEF.Data
 {
     public class SamuraiContext : DbContext
     {
+        public SamuraiContext()
+        {
+
+        }
+
+        public SamuraiContext(DbContextOptions<SamuraiContext> options):base(options)
+        {
+
+        }
 
         public DbSet<Samurai> Samurais { get; set; }
         public DbSet<Quote> Quotes { get; set; }
@@ -19,9 +28,13 @@ namespace SampleEF.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SampleEFDb")
+            /*optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SampleEFDb")
                 .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name },
-                Microsoft.Extensions.Logging.LogLevel.Information).EnableSensitiveDataLogging();
+                Microsoft.Extensions.Logging.LogLevel.Information).EnableSensitiveDataLogging();*/
+            if(!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SampleEFDb");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

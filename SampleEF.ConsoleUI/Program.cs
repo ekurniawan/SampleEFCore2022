@@ -34,7 +34,8 @@ _swordContext.Database.EnsureCreated();
 //AddNewSamiuraiWithHorse();
 //GetSamuraiWithHorse();
 //QuerySamuraiBattleStats();
-QueryUsingRawSQL();
+//QueryUsingRawSQL();
+QueryFromStoreProcedure();
 
 Console.Write("Press any key ...");
 Console.ReadLine();
@@ -261,7 +262,6 @@ void QuerySamuraiBattleStats()
         Console.WriteLine($"{stat.Name} - {stat.NumberOfBattles} - {stat.EarliestBattle}");
     }
 }
-
 void QueryUsingRawSQL()
 {
     var samurais = _context.Samurais.FromSqlRaw("select * from Samurais").ToList();
@@ -270,6 +270,17 @@ void QueryUsingRawSQL()
     foreach(var sam in samurais)
     {
         Console.WriteLine($"{sam.Name}");
+    }
+}
+
+void QueryFromStoreProcedure()
+{
+    var text = "fear";
+    //var samurais = _context.Samurais.FromSqlRaw("EXEC dbo.SamuraisWhoSaidAWord {0}", text).ToList();
+    var samurais = _context.Samurais.FromSqlInterpolated($"EXEC dbo.SamuraisWhoSaidAWord {text}").ToList();
+    foreach (var sam in samurais)
+    {
+        Console.WriteLine($"{sam.Id} - {sam.Name}");
     }
 }
 
