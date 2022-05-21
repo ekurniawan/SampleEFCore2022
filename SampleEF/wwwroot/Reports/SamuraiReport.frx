@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="05/21/2022 08:32:16" ReportInfo.Modified="05/21/2022 09:56:26" ReportInfo.CreatorVersion="2022.2.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/21/2022 08:32:16" ReportInfo.Modified="05/21/2022 11:00:02" ReportInfo.CreatorVersion="2022.2.0.0">
   <Styles Name="Sand">
     <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
     <Style Name="Header" Fill.Color="Moccasin" Font="Arial, 10pt, style=Bold"/>
@@ -9,27 +9,32 @@
     <Style Name="EvenRows" Fill.Color="FloralWhite" Font="Arial, 10pt"/>
   </Styles>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqJUrEa/KIcQqhhcfnlqC6PKK8MheP9IEu4gFWCPXnWzFgLjPP39mqhm6WKckRi90qfWFHDc7eZn2VVrd1T5h+haH9+t4L//HJZ43TW1eWyiZYBcv6XPKoSaAWosui4p82Vfxd1QeFJh5Ea86iAOlBAedmy7Noqmc1++WzetjfpChPxqWe/ufcuXLBbwov188fuz7wPHm3SmsH8PY1V+qmHg==">
-      <TableDataSource Name="Samurais" DataType="System.Int32" Enabled="true" TableName="Samurais">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqJUrEa/KIcQqhhcfnlqC6PKK8MheP9IEu4gFWCPXnWzFgLjPP39mqhm6WKckRi90qfWFHDc7eZn2VVrd1T5h+haH9+t4L//HJZ43TW1eWyiZYBcv6XPKoSaAWosui4p82Vfxd1QeFJh5Ea86iAOlBAedmy7Noqmc1++WzetjfpChPxqWe/ufcuXLBbwov188f7CROBi+Q/QZno7KMq5Qo0w==">
+      <TableDataSource Name="Samurais" DataType="System.Int32" Enabled="true" TableName="Samurais" SelectCommand="SELECT S.Id, S.Name, Q.Text&#13;&#10;FROM &quot;Samurais&quot; S INNER JOIN &quot;Quotes&quot; Q ON S.Id = Q.SamuraiId &#13;&#10;where Q.Text like  '%' + @QuoteText + '%'&#13;&#10;&#13;&#10;">
         <Column Name="Id" DataType="System.Int32"/>
         <Column Name="Name" DataType="System.String"/>
+        <Column Name="Text" DataType="System.String"/>
+        <CommandParameter Name="QuoteText" DataType="22" Expression="[QuoteText]"/>
       </TableDataSource>
     </MsSqlDataConnection>
     <Parameter Name="CONN" DataType="System.String"/>
+    <Parameter Name="QuoteText" DataType="System.String"/>
   </Dictionary>
   <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
     <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
       <TextObject Name="Text1" Width="718.2" Height="37.8" Dock="Fill" Text="Samurais" HorzAlign="Center" VertAlign="Center" Font="Arial, 12pt, style=Bold" Style="Title"/>
     </ReportTitleBand>
-    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="28.35">
-      <TextObject Name="Text3" Width="359.1" Height="18.9" Fill.Color="Moccasin" Text="Id" Font="Arial, 10pt, style=Bold" Style="Header"/>
-      <TextObject Name="Text5" Left="359.1" Width="359.1" Height="18.9" Fill.Color="Moccasin" Text="Name" Font="Arial, 10pt, style=Bold" Style="Header"/>
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="18.9">
+      <TextObject Name="Text3" Width="170.1" Height="18.9" Fill.Color="Moccasin" Text="Id" Font="Arial, 10pt, style=Bold" Style="Header"/>
+      <TextObject Name="Text5" Left="170.1" Width="179.55" Height="18.9" Fill.Color="Moccasin" Text="Name" Font="Arial, 10pt, style=Bold" Style="Header"/>
+      <TextObject Name="Text7" Left="349.65" Width="368.55" Height="18.9" Fill.Color="Moccasin" Text="Text" Font="Arial, 10pt, style=Bold" Style="Header"/>
     </PageHeaderBand>
-    <DataBand Name="Data1" Top="74.15" Width="718.2" Height="18.9" EvenStyle="EvenRows" DataSource="Samurais">
-      <TextObject Name="Text2" Width="359.1" Height="18.9" Text="[Samurais.Id]" Font="Arial, 10pt" Style="Data"/>
-      <TextObject Name="Text4" Left="359.1" Width="359.1" Height="18.9" Text="[Samurais.Name]" Font="Arial, 10pt" Style="Data"/>
+    <DataBand Name="Data1" Top="64.7" Width="718.2" Height="18.9" EvenStyle="EvenRows" DataSource="Samurais">
+      <TextObject Name="Text2" Width="170.1" Height="18.9" Text="[Samurais.Id]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text4" Left="170.1" Width="179.55" Height="18.9" Text="[Samurais.Name]" Font="Arial, 10pt" Style="Data"/>
+      <TextObject Name="Text8" Left="349.65" Width="368.55" Height="18.9" Text="[Samurais.Text]" Font="Arial, 10pt"/>
     </DataBand>
-    <PageFooterBand Name="PageFooter1" Top="97.05" Width="718.2" Height="18.9">
+    <PageFooterBand Name="PageFooter1" Top="87.6" Width="718.2" Height="18.9">
       <TextObject Name="Text6" Width="718.2" Height="18.9" Dock="Fill" Fill.Color="Moccasin" Text="[PageN]" HorzAlign="Right" Font="Arial, 10pt" Style="Footer"/>
     </PageFooterBand>
   </ReportPage>

@@ -31,14 +31,15 @@ namespace SampleEF.Controllers
             WebReport web = new WebReport();
             var path = $"{_webHostEnvironment.WebRootPath}\\Reports\\SamuraiReport.frx";
             web.Report.Load(path);
-            
+
             //web.Report.RegisterData(results, "Samurais");
 
             /*var mssqlDataConnection = new MsSqlDataConnection();
-            mssqlDataConnection.ConnectionString = _configuration.GetConnectionString("SamuraiConnection");
+            mssqlDataConnection.ConnectionString = _configursation.GetConnectionString("SamuraiConnection");
             var conn = mssqlDataConnection.ConnectionString;
             web.Report.SetParameterValue("CONN", conn);*/
 
+            web.Report.SetParameterValue("QuoteText", "deathdd");
             return View(web);
         }
 
