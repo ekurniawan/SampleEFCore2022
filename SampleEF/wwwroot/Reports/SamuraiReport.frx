@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="05/21/2022 08:32:16" ReportInfo.Modified="05/21/2022 09:01:42" ReportInfo.CreatorVersion="2022.2.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="05/21/2022 08:32:16" ReportInfo.Modified="05/21/2022 09:56:26" ReportInfo.CreatorVersion="2022.2.0.0">
   <Styles Name="Sand">
     <Style Name="Title" Font="Arial, 12pt, style=Bold"/>
     <Style Name="Header" Fill.Color="Moccasin" Font="Arial, 10pt, style=Bold"/>
@@ -9,8 +9,8 @@
     <Style Name="EvenRows" Fill.Color="FloralWhite" Font="Arial, 10pt"/>
   </Styles>
   <Dictionary>
-    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqJUrEa/KIcQqhhcfnlqC6PKK8MheP9IEu4gFWCPXnWzFgLjPP39mqhm6WKckRi90qfWFHDc7eZn2VVrd1T5h+haH9+t4L//HJZ43TW1eWyiZYBcv6XPKoSaAWosui4p82Vfxd1QeFJh5Ea86iAOlBAedmy7Noqmc1++WzetjfpChPxqWe/ufcuXLBbwov188fnZc7SofDXWbfiZDcrsa3nQ==">
-      <TableDataSource Name="Samurais" DataType="System.Int32" Enabled="true" TableName="Samurais" SelectCommand="select * from Samurais order by name">
+    <MsSqlDataConnection Name="Connection" ConnectionString="rijcmlqJUrEa/KIcQqhhcfnlqC6PKK8MheP9IEu4gFWCPXnWzFgLjPP39mqhm6WKckRi90qfWFHDc7eZn2VVrd1T5h+haH9+t4L//HJZ43TW1eWyiZYBcv6XPKoSaAWosui4p82Vfxd1QeFJh5Ea86iAOlBAedmy7Noqmc1++WzetjfpChPxqWe/ufcuXLBbwov188fuz7wPHm3SmsH8PY1V+qmHg==">
+      <TableDataSource Name="Samurais" DataType="System.Int32" Enabled="true" TableName="Samurais">
         <Column Name="Id" DataType="System.Int32"/>
         <Column Name="Name" DataType="System.String"/>
       </TableDataSource>
