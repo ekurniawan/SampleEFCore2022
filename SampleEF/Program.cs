@@ -1,3 +1,4 @@
+using FastReport.Data;
 using Microsoft.EntityFrameworkCore;
 using SampleEF.Data;
 using SampleEF.Data.Dal;
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<SamuraiContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("SamuraiConnection"))
    .EnableSensitiveDataLogging());
 
+//fast report
+FastReport.Utils.RegisteredObjects.AddConnection(typeof(MsSqlDataConnection));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +31,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//use fast report
+app.UseFastReport();
+
 
 app.UseRouting();
 
